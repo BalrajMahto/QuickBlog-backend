@@ -1,6 +1,6 @@
 import express from 'express';
-import { addBlog, addComment, deleteBlogById, getAllBlogs, getBlogById, getBlogComments, toggelePublish } from '../controllers/blogController.js';
-import upload from '../middlewares/multer.js'; // Assuming you have a middleware for handling file uploads
+import { addBlog, addComment, deleteBlogById, getAllBlogs, getBlogById, getBlogComments, togglePublish } from '../controllers/blogController.js';
+import upload from '../middlewares/multer.js'; 
 import auth from '../middlewares/auth.js';
 
 
@@ -11,7 +11,7 @@ blogRouter.post('/add',upload.single('image'), auth,addBlog);
 blogRouter.get('/all', getAllBlogs);
 blogRouter.get('/:blogId', getBlogById);
 blogRouter.post('/delete', deleteBlogById);
-blogRouter.post('/toggle-publish/:id', auth, toggelePublish);
+blogRouter.post('/toggle-publish/:id', auth, togglePublish);
 
 blogRouter.post('/add-comment', addComment);
 blogRouter.post('/comments', getBlogComments);

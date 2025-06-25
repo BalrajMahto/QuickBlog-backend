@@ -93,7 +93,7 @@ export const deleteBlogById = async (req, res) => {
 
 }
 
-export const toggelePublish = async (req, res) => {
+export const togglePublish = async (req, res) => {
     try {
         const { id } = req.params;
         const blog = await Blog.findById(id);
