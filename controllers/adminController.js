@@ -52,21 +52,24 @@ export const getAllComments = async (req, res) => {
 
 // Dashboard stats
 export const getDashboard = async (req, res) => {
+  
     try {
         const recentBlogs = await Blog.find({}).sort({ createdAt: -1 }).limit(5);
         const blogs = await Blog.countDocuments();
         const comments = await Comment.countDocuments();
         const drafts = await Blog.countDocuments({ isPublished: false });
-        res.json({ success: true, recentBlogs, blogs, comments, drafts });
+        res.json({ success: true,  dashboardData: {recentBlogs,blog: blogs,comments,drafts} });
+
     } catch (error) {
         res.json({ success: false, message: error.message });
     }
 };
 
+
 // Delete comment by ID
 export const deleteCommentById = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.body;
         await Comment.findByIdAndDelete(id);
         res.json({ success: true, message: "Comment deleted successfully" });
     } catch (error) {
@@ -77,7 +80,7 @@ export const deleteCommentById = async (req, res) => {
 // Approve comment
 export const approveComment = async (req, res) => {
     try {
-        const { id } = req.params;
+        const { id } = req.body;
         const comment = await Comment.findById(id);
         if (!comment) {
             return res.status(404).json({ success: false, message: "Comment not found" });
